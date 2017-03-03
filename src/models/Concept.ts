@@ -88,7 +88,7 @@ export class Concept extends Model implements IConcept {
     }
 
     get endIndex(): number {
-        return this.index + this.value.length - 1;
+        return this.index + this.value.length;
     }
 
     get countWords(): number {
