@@ -1,3 +1,3 @@
-# @entitizer/core
+# entitizer.core
 
-Core Entitizer module.
+Entitizer core module.

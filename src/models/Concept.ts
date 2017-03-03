@@ -3,19 +3,22 @@ import { IModel, Model } from './Model';
 import { Context } from './Context';
 import * as utils from '../utils';
 
+const MAX_LENGTH: number = 100;
+
 export interface IConcept extends IModel {
-    reset(value: string, index?: number);
+    reset(value: string, index?: number): void;
     value: string;
     abbr: string;
     isAbbr: boolean;
     name: string;
-    index: number;
-    endIndex: number;
-    endsWithDot: boolean;
-    endsWithNumber: boolean;
-    countWords: number;
-    atonicValue: string;
+    readonly index: number;
+    readonly endIndex: number;
+    readonly endsWithDot: boolean;
+    readonly endsWithNumber: boolean;
+    readonly countWords: number;
+    readonly atonicValue: string;
     context: Context;
+    isValid(): boolean;
 }
 
 /**
@@ -28,35 +31,35 @@ export class Concept extends Model implements IConcept {
         this.reset(this.value, this.index);
     }
 
-    reset(value: string, index?: number) {
-        this.value = value;
+    reset(value: string, index?: number): void {
+        if (typeof value !== 'string') {
+            throw new Error('Invalid field `value`');
+        }
+        this.set('value', value);
         if (typeof index === 'number' && index > -1) {
-            this.index = index;
+            this.set('index', index);
         } else {
-            this.index = this.index || 0;
+            this.set('index', this.index || 0);
         }
 
         const words = value.split(/[ ]+/g);
-        this.atonicValue = utils.atonic(value);
+        this.set('atonicValue', utils.atonic(value));
         if (words.length === 1 && value === value.toUpperCase()) {
             this.isAbbr = true;
         }
-        this.countWords = words.length;
+        this.set('countWords', words.length);
         if (words.length > 1) {
             if (utils.isDigit(words[words.length - 1])) {
-                this.endsWithNumber = true;
+                this.set('endsWithNumber', true);
             }
         }
         if (value[value.length - 1] === '.') {
-            this.endsWithDot = true;
+            this.set('endsWithDot', true);
         }
     }
 
     get value(): string {
         return this.get<string>('value');
-    }
-    set value(value: string) {
-        this.set('value', value);
     }
 
     get abbr(): string {
@@ -83,9 +86,6 @@ export class Concept extends Model implements IConcept {
     get index(): number {
         return this.get<number>('index');
     }
-    set index(value: number) {
-        this.set('index', value);
-    }
 
     get endIndex(): number {
         return this.index + this.value.length - 1;
@@ -93,9 +93,6 @@ export class Concept extends Model implements IConcept {
 
     get countWords(): number {
         return this.get<number>('countWords');
-    }
-    set countWords(value: number) {
-        this.set('countWords', value);
     }
 
     get context(): Context {
@@ -108,21 +105,30 @@ export class Concept extends Model implements IConcept {
     get atonicValue(): string {
         return this.get<string>('atonicValue');
     }
-    set atonicValue(value: string) {
-        this.set('atonicValue', value);
-    }
 
     get endsWithDot(): boolean {
         return this.get<boolean>('endsWithDot');
-    }
-    set endsWithDot(value: boolean) {
-        this.set('endsWithDot', value);
     }
 
     get endsWithNumber(): boolean {
         return this.get<boolean>('endsWithNumber');
     }
-    set endsWithNumber(value: boolean) {
-        this.set('endsWithNumber', value);
+
+    isValid(): boolean {
+        let value = this.value;
+        if (!value || value.length < 2 || value.length > MAX_LENGTH || utils.isDigit(value)) {
+            return false;
+        }
+
+        if (value.length !== value.trim().length) {
+            //throw new Error('Trim value is not === with value: "'+ value+'"');
+            return false;
+        }
+
+        if (value.length === 2 && /[!"#%&'\(\)\*,\.\/:\?@\[\]\\_{}-]/.test(value[1])) {
+            return false;
+        }
+
+        return true;
     }
 }

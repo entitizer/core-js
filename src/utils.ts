@@ -33,7 +33,3 @@ export function isDigit(s: string): boolean {
 export function isLetterOrDigit(s: string): boolean {
     return isDigit(s) || isLetter(s);
 }
-
-export function isPunctuation(s: string): boolean {
-    return /[!"#%&'\(\)\*,\.\/:\?@\[\]\\_{}-]/.test(s);
-}

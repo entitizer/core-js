@@ -11,8 +11,8 @@ export interface IContext extends IModel {
  * Context class
  */
 export class Context extends Model implements IContext {
-    constructor(fields?: any) {
-        super(fields);
+    constructor(args?: { text: string, lang: string, country?: string }) {
+        super(args);
     }
 
     get lang(): string {

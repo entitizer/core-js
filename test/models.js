@@ -36,7 +36,7 @@ describe('models', function () {
 
     it('Model.toJSON() childs', function () {
         const context = new models.Context({ lang: 'en' });
-        const concept = new models.Concept({ index: 10, context: context });
+        const concept = new models.Concept({ value: 'Name', index: 10, context: context });
         assert.equal('en', concept.context.lang);
         assert.equal(10, concept.index);
 

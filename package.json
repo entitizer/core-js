@@ -1,5 +1,5 @@
 {
-  "name": "@entitizer/core",
+  "name": "entitizer.core",
   "version": "0.0.1",
   "description": "Entitizer core module",
   "main": "./lib/index.js",
