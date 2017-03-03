@@ -1,10 +1,16 @@
 
-import { Model } from './Model';
+import { IModel, Model } from './Model';
+
+export interface IContext extends IModel {
+    lang: string;
+    country: string;
+    text: string;
+}
 
 /**
  * Context class
  */
-export class Context extends Model {
+export class Context extends Model implements IContext {
     constructor(fields?: any) {
         super(fields);
     }
@@ -21,5 +27,12 @@ export class Context extends Model {
     }
     set country(value: string) {
         this.set('country', value);
+    }
+
+    get text(): string {
+        return this.get<string>('text');
+    }
+    set text(value: string) {
+        this.set('text', value);
     }
 }

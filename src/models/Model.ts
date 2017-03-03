@@ -5,10 +5,16 @@ function checkField(name: string) {
     }
 }
 
+export interface IModel {
+    set<T>(fieldName: string, fieldValue?: T);
+    get<T>(fieldName: string): T;
+    toJSON(): any;
+}
+
 /**
  * Model base class
  */
-export abstract class Model {
+export abstract class Model implements IModel {
     private _fields: any = {};
     // private _keys?: any;
 

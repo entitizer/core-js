@@ -1,6 +1,6 @@
 
-import { Model } from './Model';
-import { Context } from './Context';
-import { Concept } from './Concept';
+import { IModel, Model } from './Model';
+import { IContext, Context } from './Context';
+import { IConcept, Concept } from './Concept';
 
-export { Model, Context, Concept };
+export { IModel, Model, IContext, Context, IConcept, Concept };

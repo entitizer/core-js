@@ -4,7 +4,7 @@
         "outDir": "lib",
         "rootDir": "./src",
         "target": "es5",
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": false,
