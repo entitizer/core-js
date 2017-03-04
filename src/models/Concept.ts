@@ -1,9 +1,14 @@
 
 import { IModel, Model } from './Model';
-import { Context } from './Context';
 import * as utils from '../utils';
 
 const MAX_LENGTH: number = 100;
+
+export type ContextType = {
+    lang: string;
+    country?: string;
+    text?: string;
+};
 
 export interface IConcept extends IModel {
     reset(value: string, index?: number): void;
@@ -17,7 +22,7 @@ export interface IConcept extends IModel {
     readonly endsWithNumber: boolean;
     readonly countWords: number;
     readonly atonicValue: string;
-    context: Context;
+    context: ContextType;
     isValid(): boolean;
 }
 
@@ -25,7 +30,7 @@ export interface IConcept extends IModel {
  * Concept class
  */
 export class Concept extends Model implements IConcept {
-    constructor(args: { value: string, index: number, context?: Context }) {
+    constructor(args: { value: string, index: number, context?: ContextType }) {
         super(args);
 
         this.reset(this.value, this.index);
@@ -95,10 +100,10 @@ export class Concept extends Model implements IConcept {
         return this.get<number>('countWords');
     }
 
-    get context(): Context {
-        return this.get<Context>('context');
+    get context(): ContextType {
+        return this.get<ContextType>('context');
     }
-    set context(value: Context) {
+    set context(value: ContextType) {
         this.set('context', value);
     }
 

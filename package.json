@@ -1,6 +1,6 @@
 {
   "name": "entitizer.core",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Entitizer core module",
   "main": "./lib/index.js",
   "types": "./types/index.d.ts",
